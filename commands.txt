@@ -1,0 +1,8 @@
+pwd
+ls
+info
+get RMBL_ENV_DATA_TEMP_DATA2.csv data/
+read AIN0
+write DAC0 2.5
+read DAC0
+write DAC0 0
