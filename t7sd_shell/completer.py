@@ -1,4 +1,11 @@
-import readline
+try:
+    import readline  # works on macOS/Linux or pyreadline3 on Windows
+except ImportError:
+    try:
+        import pyreadline3 as readline
+    except ImportError:
+        readline = None
+        print("[WARN] Readline/pyreadline3 not available. Tab completion disabled.")
 import os
 
 class ShellCompleter:
@@ -8,7 +15,7 @@ class ShellCompleter:
         self.sd_cache = sd_cache
 
     def complete(self, text, state):
-        buffer = readline.get_line_buffer()
+        buffer = readline.get_line_buffer() if readline is not None else ""
         tokens = buffer.split()
 
         # COMMAND COMPLETION

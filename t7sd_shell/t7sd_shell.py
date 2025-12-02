@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Modular refactored shell using new t7sd_api package.
 """
@@ -6,7 +5,6 @@ Modular refactored shell using new t7sd_api package.
 import argparse
 from t7sd_api import LabJackSD
 from t7sd_shell.command_registry import CommandRegistry
-import readline
 from t7sd_shell.completer import ShellCompleter
 from t7sd_shell.sd_cache import SDCache   
 
@@ -15,6 +13,19 @@ from t7sd_shell.commands.modbus_commands import register_modbus_commands
 from t7sd_shell.commands.ef_commands import register_ef_commands
 from t7sd_shell.commands.user_ram_commands import register_user_ram_commands
 from t7sd_shell.commands.system_commands import register_system_commands
+
+
+# ----------------------
+# Tab Completion Support (Windows-safe)
+# ----------------------
+try:
+    import readline  # works on macOS/Linux or pyreadline3 on Windows
+except ImportError:
+    try:
+        import pyreadline3 as readline
+    except ImportError:
+        readline = None
+        print("[WARN] Readline/pyreadline3 not available. Tab completion disabled.")
 
 
 def main():
@@ -40,9 +51,10 @@ def main():
     registry.register_names = ["AIN0", "AIN1", "DAC0", "DAC1", "FIO0", ...]  # TODO populate properly
 
     # Enable tab completion
-    completer = ShellCompleter(registry, dev, sd_cache)
-    readline.set_completer(completer.complete)
-    readline.parse_and_bind("tab: complete")
+    if readline is not None:
+        completer = ShellCompleter(registry, dev, sd_cache)
+        readline.set_completer(completer.complete)
+        readline.parse_and_bind("tab: complete")
 
     dev = LabJackSD.connect(identifier=args.identifier)
 

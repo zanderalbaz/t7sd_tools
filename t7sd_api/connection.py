@@ -54,6 +54,7 @@ class LabJackDevice:
 
     def close(self):
         if self.handle is not None:
+            print(f"\nConnection to {ljm.numberToIP(ljm.getHandleInfo(self.handle)[3])} has closed.")
             ljm.close(self.handle)
             self.handle = None
 

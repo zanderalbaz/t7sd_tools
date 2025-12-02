@@ -25,13 +25,13 @@ ef-read <AINx>
 ef-set <AINx> A=<a> B=<b> C=<c> D=<d>
 """,
 
-    "ram": """
+    "user_ram": """
 USER RAM COMMANDS
 -----------------
 user-ram-read <type> <index>
 user-ram-write <type> <index> <value>
 
-types: F32, I32, U32, U16
+types: F32 [0..39], I32 [0..9], U32 [0..39], U16 [0..19]
 """,
 
     "system": """
@@ -39,6 +39,7 @@ SYSTEM COMMANDS
 ---------------
 help                Show this help
 help <section>      Show help for SD, EF, RAM, SYSTEM, etc.
+clear               Clears all text from the screen
 quit / exit         Exit the shell
 """
 }
