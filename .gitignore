@@ -4,3 +4,5 @@ prev/*
 __pycache__
 venv/*
 **/*.pyc
+
+.env
